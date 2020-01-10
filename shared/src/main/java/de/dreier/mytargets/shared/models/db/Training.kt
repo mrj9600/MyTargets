@@ -66,7 +66,7 @@ data class Training(
     var arrowNumbering: Boolean = false,
     @Embedded var environment: Environment = Environment(),
     var comment: String = "",
-    @Embedded var score: Score = Score(),
+    @Embedded var score: Score = Score()
 
 ) : IIdSettable, Parcelable {
     val formattedDate: String
