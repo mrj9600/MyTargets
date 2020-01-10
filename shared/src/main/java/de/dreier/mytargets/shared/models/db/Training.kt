@@ -46,26 +46,12 @@ import org.threeten.bp.format.FormatStyle
             parentColumns = ["id"],
             childColumns = ["standardRoundId"],
             onDelete = SET_NULL
-        ),
-        ForeignKey(
-            entity = Signature::class,
-            parentColumns = ["id"],
-            childColumns = ["archerSignatureId"],
-            onDelete = SET_NULL
-        ),
-        ForeignKey(
-            entity = Signature::class,
-            parentColumns = ["id"],
-            childColumns = ["witnessSignatureId"],
-            onDelete = SET_NULL
         )
     ],
     indices = [
         Index(value = ["arrowId"]),
         Index(value = ["bowId"]),
-        Index(value = ["standardRoundId"]),
-        Index(value = ["archerSignatureId"]),
-        Index(value = ["witnessSignatureId"])
+        Index(value = ["standardRoundId"])
     ]
 )
 data class Training(
@@ -80,9 +66,7 @@ data class Training(
     var arrowNumbering: Boolean = false,
     @Embedded var environment: Environment = Environment(),
     var comment: String = "",
-    var archerSignatureId: Long? = null,
-    var witnessSignatureId: Long? = null,
-    @Embedded var score: Score = Score()
+    @Embedded var score: Score = Score(),
 
 ) : IIdSettable, Parcelable {
     val formattedDate: String

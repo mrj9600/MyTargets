@@ -62,4 +62,8 @@
     <string name="recurve_style_x_8">Recurve style (X–8)</string>
     <string name="recurve_style_10_8">Recurve style (10–8)</string>
     <string name="compound_style">Compound style</string>
+
+    <!-- Signature types -->
+    <string name="signature_type_archer">Archer</string>
+    <string name="signature_type_witness">Witness</string>
 </resources>

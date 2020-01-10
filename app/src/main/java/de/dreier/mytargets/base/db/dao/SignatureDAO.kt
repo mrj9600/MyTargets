@@ -16,6 +16,7 @@
 package de.dreier.mytargets.base.db.dao
 
 import androidx.room.*
+import de.dreier.mytargets.shared.models.ESignatureType
 import de.dreier.mytargets.shared.models.db.Signature
 
 @Dao
@@ -24,8 +25,8 @@ interface SignatureDAO {
     @Query("SELECT * FROM `Signature` WHERE `id` = :id")
     fun loadSignature(id: Long): Signature
 
-    @Query("SELECT * FROM `Signature` WHERE `id` = :id")
-    fun loadSignatureOrNull(id: Long): Signature?
+    @Query("SELECT * FROM `Signature` WHERE `trainingId` = :trainingId AND `type` = :type AND `index` = :index")
+    fun loadSignatureByTrainingId(trainingId: Long, type: ESignatureType, index: Int): Signature?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSignature(signature: Signature): Long

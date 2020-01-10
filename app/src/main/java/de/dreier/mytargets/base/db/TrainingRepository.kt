@@ -19,6 +19,7 @@ import androidx.room.RoomDatabase
 import de.dreier.mytargets.base.db.dao.RoundDAO
 import de.dreier.mytargets.base.db.dao.SignatureDAO
 import de.dreier.mytargets.base.db.dao.TrainingDAO
+import de.dreier.mytargets.shared.models.ESignatureType
 import de.dreier.mytargets.shared.models.augmented.AugmentedTraining
 import de.dreier.mytargets.shared.models.db.Signature
 import de.dreier.mytargets.shared.models.db.Training
@@ -46,31 +47,21 @@ class TrainingRepository(
         }
     }
 
-    fun getOrCreateArcherSignature(training: Training): Signature {
-        if (training.archerSignatureId != null) {
-            val signature = signatureDAO.loadSignatureOrNull(training.archerSignatureId!!)
-            if (signature != null) {
-                return signature
-            }
+    fun getOrCreateArcherSignature(training: Training, archerIndex: Int): Signature {
+         var signature = signatureDAO.loadSignatureByTrainingId(training.id, ESignatureType.ARCHER, archerIndex)
+         if (signature == null) {
+            signature = Signature(trainingId = training.id, type = ESignatureType.ARCHER, index = archerIndex)
+            signature.id = signatureDAO.insertSignature(signature)
         }
-        val signature = Signature()
-        signature.id = signatureDAO.insertSignature(signature)
-        training.archerSignatureId = signature.id
-        trainingDAO.updateTraining(training)
         return signature
     }
 
     fun getOrCreateWitnessSignature(training: Training): Signature {
-        if (training.witnessSignatureId != null) {
-            val signature = signatureDAO.loadSignatureOrNull(training.witnessSignatureId!!)
-            if (signature != null) {
-                return signature
-            }
+        var signature = signatureDAO.loadSignatureByTrainingId(training.id, ESignatureType.WITNESS,0)
+        if (signature == null) {
+            signature = Signature(trainingId = training.id, type = ESignatureType.WITNESS)
+            signature.id = signatureDAO.insertSignature(signature)
         }
-        val signature = Signature()
-        signature.id = signatureDAO.insertSignature(signature)
-        training.witnessSignatureId = signature.id
-        trainingDAO.updateTraining(training)
         return signature
     }
 }

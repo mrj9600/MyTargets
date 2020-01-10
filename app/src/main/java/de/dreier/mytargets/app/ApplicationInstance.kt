@@ -127,7 +127,7 @@ class ApplicationInstance : SharedApplicationInstance() {
                     Migration17, Migration18, Migration19,
                     Migration20, Migration21, Migration22,
                     Migration23, Migration24, Migration25,
-                    Migration26
+                    Migration26, Migration27
                 )
                 .build()
         }

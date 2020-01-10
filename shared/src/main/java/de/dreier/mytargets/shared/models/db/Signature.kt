@@ -15,19 +15,36 @@
 
 package de.dreier.mytargets.shared.models.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
+import de.dreier.mytargets.shared.models.ESignatureType
 import de.dreier.mytargets.shared.utils.readBitmap
 import de.dreier.mytargets.shared.utils.writeBitmap
 
-@Entity
-data class Signature(
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = Training::class,
+            parentColumns = ["id"],
+            childColumns = ["trainingId"],
+            onDelete = CASCADE
+        )
+    ],
+    indices = [
+        Index(value = ["trainingId"])
+    ]
+) data class Signature(
         @PrimaryKey(autoGenerate = true)
         var id: Long = 0,
+
+        var trainingId: Long,
+
+        var type: ESignatureType = ESignatureType.ARCHER,
+
+        var index: Int = 0,
 
         var name: String = "",
 
@@ -47,6 +64,9 @@ data class Signature(
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(id)
+        dest.writeLong(trainingId)
+        dest.writeInt(type.ordinal)
+        dest.writeInt(index)
         dest.writeString(name)
         dest.writeBitmap(bitmap)
     }
@@ -56,9 +76,12 @@ data class Signature(
         val CREATOR = object : Parcelable.Creator<Signature> {
             override fun createFromParcel(source: Parcel): Signature {
                 val id = source.readLong()
+                val trainingId = source.readLong()
+                val typeId = source.readInt()
+                val index = source.readInt()
                 val name = source.readString()!!
                 val bitmap = source.readBitmap()
-                return Signature(id, name, bitmap)
+                return Signature(id, trainingId, ESignatureType.fromId(typeId), index, name, bitmap)
             }
 
             override fun newArray(size: Int) = arrayOfNulls<Signature>(size)

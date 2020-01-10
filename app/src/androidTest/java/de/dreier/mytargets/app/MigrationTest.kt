@@ -73,12 +73,12 @@ class MigrationTest : InstrumentedTestBase() {
         db.close()
 
         testHelper.runMigrationsAndValidate(
-            TEST_DB_NAME, 26,
+            TEST_DB_NAME, 27,
             true,
             Migration17, Migration18, Migration19,
             Migration20, Migration21, Migration22,
             Migration23, Migration24, Migration25,
-            Migration26
+            Migration26, Migration27
         )
 
         val migratedDb = getMigratedRoomDatabase()
@@ -223,7 +223,7 @@ class MigrationTest : InstrumentedTestBase() {
             Migration17, Migration18, Migration19,
             Migration20, Migration21, Migration22,
             Migration23, Migration24, Migration25,
-            Migration26
+            Migration26, Migration27
         ).build()
         testHelper.closeWhenFinished(database)
         return database

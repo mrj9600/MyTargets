@@ -371,7 +371,7 @@ class DefaultScoreboardLayout(
 
     private fun appendSignature(training: Training) {
         builder.signature(
-            trainingRepository.getOrCreateArcherSignature(training),
+            trainingRepository.getOrCreateArcherSignature(training, 0),
             trainingRepository.getOrCreateWitnessSignature(training)
         )
     }
